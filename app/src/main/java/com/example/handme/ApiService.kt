@@ -1,14 +1,15 @@
 package com.example.handme.api
 
 import com.example.handme.model.Product
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 
 interface ApiService {
+
     @GET("products/category/{category}")
     suspend fun getProductsByCategory(@Path("category") category: String): ProductsResponse
 
@@ -19,7 +20,6 @@ interface ApiService {
             val logging = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
-
             val client = OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build()

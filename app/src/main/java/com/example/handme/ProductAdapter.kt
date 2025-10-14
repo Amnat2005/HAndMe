@@ -30,6 +30,8 @@ class ProductAdapter(private val products: List<Product>) :
         val item = products[position]
         holder.title.text = item.title
         holder.price.text = "$${item.price}"
-        Glide.with(holder.itemView.context).load(item.thumbnail).into(holder.image)
+        Glide.with(holder.itemView.context)
+            .load(item.thumbnail)
+            .into(holder.image)
     }
 }
