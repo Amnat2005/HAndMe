@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchEditText: EditText
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var productRecyclerView: RecyclerView
+    private lateinit var cartIcon: ImageView
     private val api = ApiService.create()
 
     private val categories = listOf(
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         searchEditText = findViewById(R.id.searchEditText)
         categoryRecyclerView = findViewById(R.id.categoryRecyclerView)
         productRecyclerView = findViewById(R.id.recyclerView)
+        cartIcon = findViewById(R.id.cartIcon)
 
         // LayoutManagers
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -60,6 +64,11 @@ class MainActivity : AppCompatActivity() {
             val query = text.toString().lowercase()
             val filtered = allProducts.filter { p -> p.title.lowercase().contains(query) }
             productRecyclerView.adapter = ProductAdapter(filtered)
+        }
+
+        // คลิกตะกร้า
+        cartIcon.setOnClickListener {
+            Toast.makeText(this, "เเสดงตะกร้า", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <!-- Search Bar -->
+    <!-- Search Bar พร้อมไอคอนตะกร้า -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -21,12 +21,16 @@
             android:paddingEnd="16dp"
             android:gravity="center_vertical">
 
+            <!-- ไอคอนค้นหา -->
             <ImageView
+                android:id="@+id/searchIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@android:drawable/ic_menu_search"
-                android:tint="#888888"/>
+                app:tint="#888888"
+                android:contentDescription="Search Icon" />
 
+            <!-- ช่องค้นหา -->
             <EditText
                 android:id="@+id/searchEditText"
                 android:layout_width="0dp"
@@ -36,7 +40,17 @@
                 android:hint="ค้นหาสินค้า"
                 android:background="@android:color/transparent"
                 android:textSize="16sp"
-                android:imeOptions="actionSearch"/>
+                android:imeOptions="actionSearch" />
+
+            <!-- ไอคอนตะกร้า -->
+            <ImageView
+                android:id="@+id/cartIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_cart"
+                app:tint="#888888"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Cart Icon" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -46,12 +60,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="8dp"/>
+        android:paddingBottom="8dp" />
 
     <!-- RecyclerView สำหรับสินค้า -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 </LinearLayout>
