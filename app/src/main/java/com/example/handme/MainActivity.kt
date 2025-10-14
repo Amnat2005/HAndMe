@@ -3,6 +3,7 @@ package com.example.handme
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +14,11 @@ import com.example.handme.model.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.core.widget.addTextChangedListener
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var searchEditText: EditText
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var productRecyclerView: RecyclerView
     private val api = ApiService.create()
@@ -29,28 +32,41 @@ class MainActivity : AppCompatActivity() {
         Category("womens-shoes", "รองเท้าผู้หญิง", "https://img.lazcdn.com/g/p/69f556f58290011eed12a3cddda4ddbd.jpg_720x720q80.jpg")
     )
 
+    private var allProducts = mutableListOf<Product>() // เก็บสินค้าทั้งหมด
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Views
+        searchEditText = findViewById(R.id.searchEditText)
         categoryRecyclerView = findViewById(R.id.categoryRecyclerView)
         productRecyclerView = findViewById(R.id.recyclerView)
 
+        // LayoutManagers
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         productRecyclerView.layoutManager = GridLayoutManager(this, 2)
 
+        // Adapter หมวดสินค้า
         categoryRecyclerView.adapter = CategoryAdapter(categories) { category ->
             fetchProductsByCategory(category.name)
         }
 
         // โหลดสินค้าทั้งหมดเริ่มต้น
         fetchAllClothes()
+
+        // ฟิลเตอร์การค้นหาแบบ real-time
+        searchEditText.addTextChangedListener { text ->
+            val query = text.toString().lowercase()
+            val filtered = allProducts.filter { p -> p.title.lowercase().contains(query) }
+            productRecyclerView.adapter = ProductAdapter(filtered)
+        }
     }
 
     private fun fetchAllClothes() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val allProducts = mutableListOf<Product>()
+                allProducts.clear()
                 for (cat in categories) {
                     val response = api.getProductsByCategory(cat.name)
                     allProducts.addAll(response.products)
