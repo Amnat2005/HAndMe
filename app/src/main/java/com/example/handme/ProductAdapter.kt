@@ -12,10 +12,18 @@ import com.example.handme.model.Product
 class ProductAdapter(private val products: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
-    class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.productImage)
         val title: TextView = itemView.findViewById(R.id.productTitle)
         val price: TextView = itemView.findViewById(R.id.productPrice)
+
+        fun bind(product: Product) {
+            title.text = product.title
+            price.text = "$${product.price}"
+            Glide.with(itemView.context)
+                .load(product.thumbnail)
+                .into(image)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -24,14 +32,9 @@ class ProductAdapter(private val products: List<Product>) :
         return ProductViewHolder(view)
     }
 
-    override fun getItemCount() = products.size
-
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val item = products[position]
-        holder.title.text = item.title
-        holder.price.text = "$${item.price}"
-        Glide.with(holder.itemView.context)
-            .load(item.thumbnail)
-            .into(holder.image)
+        holder.bind(products[position])
     }
+
+    override fun getItemCount() = products.size
 }
