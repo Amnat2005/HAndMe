@@ -1,10 +1,15 @@
-package com.example.handme
+package com.example.handme.model
 
 data class Product(
     val id: Int,
     val title: String,
-    val price: Double,
     val description: String,
+    val price: Double,
+    val discountPercentage: Double,
+    val rating: Double,
+    val stock: Int,
+    val brand: String,
     val category: String,
-    val image: String
+    val thumbnail: String,
+    val images: List<String>
 )

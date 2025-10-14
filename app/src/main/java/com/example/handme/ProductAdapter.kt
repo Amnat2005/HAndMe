@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.handme.model.Product
 
 class ProductAdapter(private val products: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
@@ -29,6 +30,6 @@ class ProductAdapter(private val products: List<Product>) :
         val item = products[position]
         holder.title.text = item.title
         holder.price.text = "$${item.price}"
-        Glide.with(holder.itemView.context).load(item.image).into(holder.image)
+        Glide.with(holder.itemView.context).load(item.thumbnail).into(holder.image)
     }
 }
