@@ -1,11 +1,18 @@
 package com.example.handme
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
+import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +23,6 @@ import com.example.handme.model.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.core.widget.addTextChangedListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +30,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var productRecyclerView: RecyclerView
     private lateinit var cartIcon: ImageView
+    private lateinit var userContainer: LinearLayout
+    private lateinit var userIcon: ImageView
+    private lateinit var userNameText: TextView
+    private lateinit var prefs: SharedPreferences
     private val api = ApiService.create()
 
     private val categories = listOf(
@@ -35,17 +45,26 @@ class MainActivity : AppCompatActivity() {
         Category("womens-shoes", "รองเท้าผู้หญิง", "https://img.lazcdn.com/g/p/69f556f58290011eed12a3cddda4ddbd.jpg_720x720q80.jpg")
     )
 
-    private var allProducts = mutableListOf<Product>() // เก็บสินค้าทั้งหมด
+    private var allProducts = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        prefs = getSharedPreferences("UserData", MODE_PRIVATE)
 
         // Views
         searchEditText = findViewById(R.id.searchEditText)
         categoryRecyclerView = findViewById(R.id.categoryRecyclerView)
         productRecyclerView = findViewById(R.id.recyclerView)
         cartIcon = findViewById(R.id.cartIcon)
+        userContainer = findViewById(R.id.userContainer)
+        userIcon = findViewById(R.id.userIcon)
+        userNameText = findViewById(R.id.userNameText)
+
+        // แสดงชื่อผู้ใช้ข้างไอคอนบัญชี
+        val savedUser = prefs.getString("username", "Guest")
+        userNameText.text = savedUser
 
         // LayoutManagers
         categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -68,7 +87,25 @@ class MainActivity : AppCompatActivity() {
 
         // คลิกตะกร้า
         cartIcon.setOnClickListener {
-            Toast.makeText(this, "เเสดงตะกร้า", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "แสดงตะกร้า", Toast.LENGTH_SHORT).show()
+        }
+
+        // คลิก container ของผู้ใช้
+        userContainer.setOnClickListener { view ->
+            val popup = PopupMenu(this, view)
+            popup.menu.add("Logout")
+            popup.setOnMenuItemClickListener { item: MenuItem ->
+                if (item.title == "Logout") {
+                    prefs.edit().putBoolean("isLoggedIn", false).apply()
+                    Toast.makeText(this, "ออกจากระบบแล้ว", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                    true
+                } else false
+            }
+            popup.show()
         }
     }
 

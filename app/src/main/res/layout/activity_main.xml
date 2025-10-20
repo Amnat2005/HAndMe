@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <!-- Search Bar พร้อมไอคอนตะกร้า -->
+    <!-- Search Bar พร้อมไอคอนตะกร้า และบัญชี -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -51,6 +51,36 @@
                 app:tint="#888888"
                 android:layout_marginStart="8dp"
                 android:contentDescription="Cart Icon" />
+
+            <!-- ไอคอน + ชื่อผู้ใช้ -->
+            <LinearLayout
+                android:id="@+id/userContainer"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="8dp">
+
+                <ImageView
+                    android:id="@+id/userIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_account"
+                    app:tint="#888888"
+                    android:contentDescription="User Icon" />
+
+                <TextView
+                    android:id="@+id/userNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:layout_marginStart="6dp"/>
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

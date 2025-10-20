@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.HAndMe" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- สีหลักของแอป -->
+        <item name="colorPrimary">#FF6F61</item> <!-- ส้มอมชมพู -->
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#FFD1C1</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- สีพื้นหลัง -->
+        <item name="android:windowBackground">#FFFFFF</item>
+        <item name="android:textColor">#212121</item>
+
+        <!-- ปิด Action Bar -->
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.HAndMe" parent="Base.Theme.HAndMe" />
