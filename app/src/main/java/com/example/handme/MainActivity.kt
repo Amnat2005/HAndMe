@@ -4,13 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
-import android.widget.PopupMenu
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +17,7 @@ import com.example.handme.model.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.view.MenuItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -90,23 +85,39 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "แสดงตะกร้า", Toast.LENGTH_SHORT).show()
         }
 
-        // คลิก container ของผู้ใช้
-        userContainer.setOnClickListener { view ->
-            val popup = PopupMenu(this, view)
-            popup.menu.add("Logout")
+        // คลิก container ของผู้ใช้ → เปิดหน้า ManageAccountActivity
+        userContainer.setOnClickListener {
+            val popup = PopupMenu(this, it)
+            popup.menu.add("จัดการบัญชี")
+            popup.menu.add("ออกจากระบบ")
             popup.setOnMenuItemClickListener { item: MenuItem ->
-                if (item.title == "Logout") {
-                    prefs.edit().putBoolean("isLoggedIn", false).apply()
-                    Toast.makeText(this, "ออกจากระบบแล้ว", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish()
-                    true
-                } else false
+                when (item.title.toString()) {
+                    "จัดการบัญชี" -> {
+                        val intent = Intent(this, ManageAccountActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    "ออกจากระบบ" -> {
+                        prefs.edit().putBoolean("isLoggedIn", false).apply()
+                        Toast.makeText(this, "ออกจากระบบแล้ว", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                        true
+                    }
+                    else -> false
+                }
             }
             popup.show()
         }
+    }
+
+    // อัปเดตชื่อผู้ใช้เมื่อกลับมาหน้าหลัก
+    override fun onResume() {
+        super.onResume()
+        val savedUser = prefs.getString("username", "Guest")
+        userNameText.text = savedUser
     }
 
     private fun fetchAllClothes() {
