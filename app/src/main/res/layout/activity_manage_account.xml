@@ -31,9 +31,17 @@
         android:layout_height="wrap_content" />
 
     <!-- Username -->
+    <TextView
+        android:text="ชื่อผู้ใช้"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp" />
+
     <EditText
         android:id="@+id/usernameInput"
-        android:hint="ชื่อผู้ใช้"
+        android:hint="ชื่อผู้ใช้ใหม่"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/edittext_background"
@@ -44,9 +52,17 @@
         android:layout_marginBottom="16dp" />
 
     <!-- Password -->
+    <TextView
+        android:text="รหัสผ่าน"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp" />
+
     <EditText
         android:id="@+id/passwordInput"
-        android:hint="รหัสผ่าน"
+        android:hint="รหัสผ่านใหม่"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/edittext_background"
@@ -55,12 +71,57 @@
         android:textColor="#333333"
         android:textColorHint="#888888"
         android:inputType="textPassword"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Phone -->
+    <TextView
+        android:text="เบอร์โทรศัพท์"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp" />
+
+    <EditText
+        android:id="@+id/phoneInput"
+        android:hint="เบอร์โทรใหม่"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/edittext_background"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="#333333"
+        android:textColorHint="#888888"
+        android:inputType="phone"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Address -->
+    <TextView
+        android:text="ที่อยู่"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp" />
+
+    <EditText
+        android:id="@+id/addressInput"
+        android:hint="ที่อยู่ใหม่"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:gravity="top"
+        android:background="@drawable/edittext_background"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="#333333"
+        android:textColorHint="#888888"
         android:layout_marginBottom="24dp" />
 
     <!-- Save Button -->
     <Button
         android:id="@+id/saveButton"
-        android:text="บันทึกการเปลี่ยนแปลง"
+        android:text="บันทึก"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:backgroundTint="#666666"
