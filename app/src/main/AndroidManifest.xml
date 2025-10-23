@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HAndMe">
 
-        <!-- ให้หน้า Login เป็นหน้าเริ่มต้นของแอป -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -22,15 +21,13 @@
             </intent-filter>
         </activity>
 
-        <!-- หน้าหลัก (homepage) -->
-        <activity android:name=".MainActivity"
-            android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" android:exported="false" />
+        <activity android:name=".ManageAccountActivity" android:exported="false" />
+        <activity android:name=".ProductDetailActivity" android:exported="false" />
 
-        <!-- หน้าสมัครสมาชิก -->
-        <activity android:name=".RegisterActivity"
-            android:exported="false" />
-
-        <activity android:name=".ManageAccountActivity" />
+        <!-- เพิ่มตรงนี้ -->
+        <activity android:name=".CartActivity" android:exported="false" />
 
     </application>
 

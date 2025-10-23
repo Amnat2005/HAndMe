@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -17,7 +18,6 @@ import com.example.handme.model.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.view.MenuItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         userIcon = findViewById(R.id.userIcon)
         userNameText = findViewById(R.id.userNameText)
 
-        // แสดงชื่อผู้ใช้ข้างไอคอนบัญชี
+        // แสดงชื่อผู้ใช้
         val savedUser = prefs.getString("username", "Guest")
         userNameText.text = savedUser
 
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         // โหลดสินค้าทั้งหมดเริ่มต้น
         fetchAllClothes()
 
-        // ฟิลเตอร์การค้นหาแบบ real-time
+        // ฟิลเตอร์ค้นหาแบบ real-time
         searchEditText.addTextChangedListener { text ->
             val query = text.toString().lowercase()
             val filtered = allProducts.filter { p -> p.title.lowercase().contains(query) }
@@ -82,10 +82,11 @@ class MainActivity : AppCompatActivity() {
 
         // คลิกตะกร้า
         cartIcon.setOnClickListener {
-            Toast.makeText(this, "แสดงตะกร้า", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, CartActivity::class.java)
+            startActivity(intent)
         }
 
-        // คลิก container ของผู้ใช้ → เปิดหน้า ManageAccountActivity
+        // คลิก container ผู้ใช้
         userContainer.setOnClickListener {
             val popup = PopupMenu(this, it)
             popup.menu.add("จัดการบัญชี")
@@ -113,7 +114,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // อัปเดตชื่อผู้ใช้เมื่อกลับมาหน้าหลัก
     override fun onResume() {
         super.onResume()
         val savedUser = prefs.getString("username", "Guest")
@@ -129,6 +129,7 @@ class MainActivity : AppCompatActivity() {
                     allProducts.addAll(response.products)
                 }
                 withContext(Dispatchers.Main) {
+                    // ใช้ ProductAdapter ส่ง list Product ไป ProductDetailActivity
                     productRecyclerView.adapter = ProductAdapter(allProducts)
                 }
             } catch (e: Exception) {
@@ -142,6 +143,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val response = api.getProductsByCategory(category)
                 withContext(Dispatchers.Main) {
+                    // ส่ง list Product filtered ตาม category
                     productRecyclerView.adapter = ProductAdapter(response.products)
                 }
             } catch (e: Exception) {

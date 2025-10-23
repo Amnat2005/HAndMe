@@ -1,5 +1,6 @@
 package com.example.handme
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +20,18 @@ class ProductAdapter(private val products: List<Product>) :
 
         fun bind(product: Product) {
             title.text = product.title
-            price.text = "$${product.price}"
+            price.text = "฿${product.price}"
             Glide.with(itemView.context)
                 .load(product.thumbnail)
                 .into(image)
+
+            // คลิกสินค้า → เปิดหน้า ProductDetailActivity ส่ง Product ทั้ง object
+            itemView.setOnClickListener {
+                val context = itemView.context
+                val intent = Intent(context, ProductDetailActivity::class.java)
+                intent.putExtra("product", product)
+                context.startActivity(intent)
+            }
         }
     }
 
